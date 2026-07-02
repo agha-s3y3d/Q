@@ -88,6 +88,7 @@ export default function RootLayout() {
             <Stack.Screen name="index" />
             <Stack.Screen name="students" />
             <Stack.Screen name="add-students" />
+            <Stack.Screen name="add-item" />
           </Stack>
         )}
       </SafeAreaProvider>
