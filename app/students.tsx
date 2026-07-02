@@ -1,6 +1,12 @@
 import * as React from "react";
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
@@ -12,111 +18,232 @@ import DeleteIcon from "../assets/delete.svg";
 import EditIcon from "../assets/edit.svg";
 import ButtonBg from "../assets/Button.svg";
 
-// نگاشت رنگ تگ‌ها به کلاس‌های ثابت Tailwind (کلاس داینامیک مثل border-${x}-700 کار نمی‌کنه)
-const TAG_STYLES: Record<string, { border: string; text: string }> = {
-  green: { border: "border-green-700", text: "text-green-700" },
-  orange: { border: "border-orange-700", text: "text-orange-700" },
-  pink: { border: "border-pink-700", text: "text-pink-700" },
+type Student = {
+  id: number;
+  name: string;
+  age: number;
+  phone: string;
+  gender: "پسر" | "دختر";
+  loc: "اتابک" | "محبین";
+};
+
+const students: Student[] = [
+  {
+    id: 1,
+    name: "سید علیرضا طباطبایی",
+    age: 13,
+    phone: "+98 9918787767",
+    gender: "پسر",
+    loc: "اتابک",
+  },
+  {
+    id: 2,
+    name: "فاطمه محمدی",
+    age: 11,
+    phone: "+98 9123456789",
+    gender: "دختر",
+    loc: "محبین",
+  },
+];
+
+// رنگ‌های تگ‌ها
+const LOC_STYLES = {
+  اتابک: {
+    border: "border-pink-700",
+    text: "text-pink-700",
+  },
+  محبین: {
+    border: "border-blue-700",
+    text: "text-blue-700",
+  },
+};
+
+const GENDER_STYLES = {
+  پسر: {
+    border: "border-green-700",
+    text: "text-green-700",
+  },
+  دختر: {
+    border: "border-orange-700",
+    text: "text-orange-700",
+  },
 };
 
 export default function Students() {
   const router = useRouter();
   const [text, setText] = useState("");
 
-  const students = [
-    { name: "اتابک", tag: "پسر", tagColor: "green" },
-    { name: "محبین", tag: "دختر", tagColor: "orange" },
-  ];
+  const filteredStudents = students.filter(
+    (student) =>
+      student.name.includes(text) ||
+      student.phone.includes(text) ||
+      student.loc.includes(text) ||
+      student.gender.includes(text)
+  );
 
   return (
-    <SafeAreaView edges={["top", "bottom"]} className="w-full h-full bg-white">
-      <View className="w-full h-full m-0 relative bg-white">
+    <SafeAreaView
+      edges={["top", "bottom"]}
+      className="w-full h-full bg-white"
+    >
+      <View className="w-full h-full relative bg-white">
         <View className="absolute w-full h-full overflow-hidden">
-          <GroupBg width="100%" height="100%" preserveAspectRatio="none" />
+          <GroupBg
+            width="100%"
+            height="100%"
+            preserveAspectRatio="none"
+          />
+
           <BlurView
-    intensity={80}
-    tint="light"
-    style={{ position: "absolute", width: "100%", height: "100%" }}
-  />
+            intensity={80}
+            tint="light"
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+            }}
+          />
         </View>
 
-        <View className="w-full h-full gap-4 p-[25px] relative">
-          <View className="w-full min-h-[32px] flex items-center justify-center mb-2 relative">
-            <Text className="font-estedadBold text-[19px] leading-[30px]">قرآن آموزان</Text>
+        <View className="w-full h-full gap-4 p-[25px]">
+
+          {/* Header */}
+
+          <View className="w-full min-h-[32px] justify-center items-center relative">
+
+            <Text className="font-estedadBold text-[19px] leading-[30px]">
+              قرآن آموزان
+            </Text>
+
             <TouchableOpacity
               className="absolute left-0 h-6 w-6"
               onPress={() => router.back()}
             >
               <ArrowIcon width={20} height={20} />
             </TouchableOpacity>
+
           </View>
 
-          <View className="w-full h-[43px] bg-white shadow-lg mb-2 rounded-2xl flex gap-2 flex-row-reverse items-center justify-center p-[19px]">
+          {/* Search */}
+
+          <View className="w-full h-[43px] bg-white rounded-2xl shadow-lg flex-row-reverse items-center gap-2 px-5">
+
             <SearchIcon width={18} height={18} />
+
             <TextInput
-              className="flex-1 text-black text-right font-estedadMedium"
-              value={text}
+              className="flex-1 text-right font-estedadMedium text-black"
               placeholder="دنبال کی میگردی؟"
+              value={text}
               onChangeText={setText}
-              textAlign="right"
             />
+
           </View>
 
-          <ScrollView className="w-full flex-1" contentContainerStyle={{ gap: 12 }}>
-            {students.map((item, idx) => {
-              const tagStyle = TAG_STYLES[item.tagColor] ?? TAG_STYLES.green;
+          {/* Students */}
+
+          <ScrollView
+            className="flex-1"
+            contentContainerStyle={{ gap: 12 }}
+          >
+            {filteredStudents.map((item) => {
+              const locStyle = LOC_STYLES[item.loc];
+              const genderStyle = GENDER_STYLES[item.gender];
+
               return (
                 <TouchableOpacity
-                  key={idx}
-                  className="w-full h-[80px] bg-white mb-3 py-2 px-5 border border-gray-400 rounded-2xl flex justify-between items-center"
+                  key={item.id}
+                  className="w-full h-[80px] bg-white border border-gray-400 rounded-2xl px-5 py-2 justify-between"
                 >
-                  <View className="w-full min-h-[26px] flex flex-row-reverse justify-between items-center">
-                    <View className="h-full w-auto flex flex-row-reverse gap-1">
-                      <Text className="h-full px-2 flex items-center justify-center rounded-[10px] border-2 border-pink-700 font-estedadBold text-pink-700 text-[11px] leading-[18px]">
+                  {/* بالا */}
+
+                  <View className="w-full flex-row-reverse justify-between items-center">
+
+                    <View className="flex-row-reverse gap-1">
+
+                      {/* محل */}
+
+                      <Text
+                        className={`px-2 rounded-[10px] border-2 ${locStyle.border} ${locStyle.text} font-estedadBold text-[11px] leading-[18px]`}
+                      >
+                        {item.loc}
+                      </Text>
+
+                      {/* جنسیت */}
+
+                      <Text
+                        className={`px-2 rounded-[10px] border-2 ${genderStyle.border} ${genderStyle.text} font-estedadBold text-[11px] leading-[18px]`}
+                      >
+                        {item.gender}
+                      </Text>
+
+                    </View>
+
+                    <Text className="font-estedadMedium text-gray-600 text-[13px]">
+                      {item.phone}
+                    </Text>
+
+                  </View>
+
+                  {/* پایین */}
+
+                  <View className="w-full flex-row-reverse justify-between items-center">
+
+                    <View className="flex-row-reverse gap-2 items-center">
+
+                      <Text className="font-estedadBold text-[16px]">
                         {item.name}
                       </Text>
-                      <Text
-                        className={`h-full px-2 flex items-center justify-center rounded-[10px] border-2 ${tagStyle.border} font-estedadBold ${tagStyle.text} text-[11px] leading-[18px]`}
-                      >
-                        {item.tag}
+
+                      <Text className="font-estedadBlack text-[16px]">
+                        {item.age}
                       </Text>
+
                     </View>
-                    <Text className="h-full font-estedadMedium text-gray-600 text-[13px] leading-[20px]">
-                      +98 9918787767
-                    </Text>
-                  </View>
-                  <View className="w-full h-auto flex flex-row-reverse justify-between items-center">
-                    <View className="flex flex-row-reverse gap-2 items-center">
-                      <Text className="font-estedadBold text-[16px] leading-[24px]">
-                        سید علیرضا طباطبایی
-                      </Text>
-                      <Text className="font-estedadBlack text-[16px] leading-[24px]">13</Text>
-                    </View>
-                    <View className="flex flex-row gap-1">
+
+                    <View className="flex-row gap-2">
+
                       <TouchableOpacity>
-                        <DeleteIcon width={16} height={16} />
+                        <DeleteIcon
+                          width={16}
+                          height={16}
+                        />
                       </TouchableOpacity>
+
                       <TouchableOpacity>
-                        <EditIcon width={16} height={16} />
+                        <EditIcon
+                          width={16}
+                          height={16}
+                        />
                       </TouchableOpacity>
+
                     </View>
+
                   </View>
+
                 </TouchableOpacity>
               );
             })}
           </ScrollView>
 
+          {/* Add Button */}
+
           <TouchableOpacity
-            className="w-full h-[52px] flex items-center justify-center relative"
+            className="w-full h-[52px] justify-center items-center relative"
             onPress={() => router.push("/add-students")}
           >
-            <View className="w-full h-full absolute">
-              <ButtonBg width="100%" height="100%" preserveAspectRatio="none" />
+            <View className="absolute w-full h-full">
+              <ButtonBg
+                width="100%"
+                height="100%"
+                preserveAspectRatio="none"
+              />
             </View>
-            <Text className="font-estedadBold text-[20px] leading-[32px] text-white">
+
+            <Text className="font-estedadBold text-white text-[20px]">
               افزودن قرآن آموز
             </Text>
           </TouchableOpacity>
+
         </View>
       </View>
     </SafeAreaView>

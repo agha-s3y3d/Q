@@ -33,6 +33,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.aghseyedjan.q"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "459d4031-272f-49e1-8d51-400d804de78f"
       }
     }
   }

@@ -6,6 +6,7 @@ import { useState } from 'react'
 
 import GroupBg from "../assets/Group1.svg";
 import ArrowIcon from "../assets/Arrow.svg";
+import SearchIcon from "../assets/search.svg";
 
 type PhoneInputProps = Omit<TextInputProps, "value" | "onChangeText"> & {
   value: string;
@@ -40,6 +41,7 @@ export default function AddStudents() {
   const [ Loc , setLoc ] = useState(true)
   const [age, setAge] = useState("");
   const [tel, setTel] = useState("");
+    const [text, setText] = useState("");
 
   return (
     <SafeAreaView edges={["top", "bottom"]} className="w-full h-full bg-white">
@@ -120,6 +122,16 @@ export default function AddStudents() {
   style={{ textAlign: "right", writingDirection: "rtl" }}
 />
               </View>
+            </View>
+            <View className="w-full h-[43px] bg-white shadow-lg mb-2 rounded-2xl flex gap-2 flex-row-reverse items-center justify-center p-[19px]">
+              <SearchIcon width={18} height={18} />
+              <TextInput
+                className="flex-1 text-black text-right font-estedadMedium"
+                value={text}
+                placeholder="دنبال کی میگردی؟"
+                onChangeText={setText}
+                textAlign="right"
+              />
             </View>
           </ScrollView>
         </View>
