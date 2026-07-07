@@ -260,17 +260,16 @@ export default function AddStudents() {
           </View>
 
           {/* جستجو */}
-          <View className="w-full h-[43px] bg-white border border-gray-300 mb-2 rounded-2xl flex gap-2 flex-row-reverse items-center justify-center p-[19px]">
-            <SearchIcon width={18} height={18} />
-            <TextInput
-              className="flex-1 text-black text-right font-estedadMedium"
-              value={searchText}
-              placeholder="چیا خونده؟"
-              onChangeText={setSearchText}
-              textAlign="right"
-            />
-          </View>
-
+          <View className="w-full h-11 bg-white border border-gray-300 mb-2 rounded-2xl flex-row-reverse items-center px-4 gap-2">
+  <SearchIcon width={18} height={18} />
+  <TextInput
+    className="flex-1 text-black text-right font-estedadMedium"
+    value={searchText}
+    placeholder="چیا خونده؟"
+    onChangeText={setSearchText}
+    textAlign="right"
+  />
+</View>
           {/* کامپوننت آیتم‌ها با جستجو */}
           <MyComponent searchText={searchText} />
 

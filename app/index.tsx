@@ -45,7 +45,7 @@ export default function Home() {
                 دیدن همه
               </Text>
             </View>
-            <View className="h-28 w-full flex flex-row-reverse justify-between gap-4">
+            <View className="h-32 w-full flex flex-row-reverse justify-between gap-4">
               <View className="bg-[#FFE7F5] h-full flex-1 rounded-[19px] p-[15px] gap-1">
                 <View className="w-full min-h-[32px] flex flex-row-reverse items-center justify-between">
                   <Text className="font-estedadLight text-gray-600 text-[16px] leading-[24px]">
