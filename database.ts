@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 
 const dbPromise = SQLite.openDatabaseAsync('school.db');
-type Student = {
+export type Student = {
   id: number;
   name: string;
   age: number;
